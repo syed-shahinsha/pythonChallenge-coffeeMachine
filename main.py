@@ -1,6 +1,7 @@
 from data import menu, resources
 
 money = 0
+is_on = True
 
 
 def checkIngredientsAvailable(coffee_type):
@@ -45,19 +46,19 @@ def processCoffee(coffee_type):
     return response
 
 
-while True:
-    coffee_type = input("What would you like to have? (espresso/latte/cappuccino): ")
-    if coffee_type == 'report':
+while is_on:
+    choice = input("What would you like to have? (espresso/latte/cappuccino): ")
+    if choice == 'report':
         print(f"Water: {resources['water']}\nMilk: {resources['milk']}\nCoffee: {resources['coffee']}\nMoney: ${money}")
-    elif coffee_type == 'exit':
-        break
+    elif choice == 'off':
+        is_on = False
     else:
-        ingredientsCheckResponse = checkIngredientsAvailable(coffee_type)
+        ingredientsCheckResponse = checkIngredientsAvailable(choice)
         if not ingredientsCheckResponse['ingredientsAvailable']:
             print(f"Sorry there isn't enough {ingredientsCheckResponse['missingIngredient']}!")
         else:
-            cashCheckResponse = processCoffee(coffee_type)
+            cashCheckResponse = processCoffee(choice)
             if cashCheckResponse['coffeeProcessed']:
-                print(f"Here's your remaining balance ${cashCheckResponse['remainingChange']}. Enjoy your {coffee_type}!")
+                print(f"Here's your remaining balance ${cashCheckResponse['remainingChange']}. Enjoy your {choice}!")
             else:
                 print(f"Sorry, that's not enough money! Money refunded")
